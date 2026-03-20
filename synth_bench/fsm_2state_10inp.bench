@@ -1,0 +1,53 @@
+# Sequential benchmark: many input patterns, few cubes
+# Function core: y_comb = 1 iff a=1, b=0, c=1 (others are don't-care)
+# DFF added so design is sequential.
+
+INPUT(a)
+INPUT(b)
+INPUT(c)
+INPUT(d)
+INPUT(e)
+INPUT(f)
+INPUT(g)
+INPUT(h)
+INPUT(i)
+INPUT(j)
+
+OUTPUT(y)
+
+# Inverters
+b_bar = NOT(b)
+d_bar = NOT(d)
+e_bar = NOT(e)
+f_bar = NOT(f)
+g_bar = NOT(g)
+h_bar = NOT(h)
+i_bar = NOT(i)
+j_bar = NOT(j)
+
+# "Noise" factors so every input is used, but logically = 1
+n_d = OR(d, d_bar)
+n_e = OR(e, e_bar)
+n_f = OR(f, f_bar)
+n_g = OR(g, g_bar)
+n_h = OR(h, h_bar)
+n_i = OR(i, i_bar)
+n_j = OR(j, j_bar)
+
+# Core condition: a=1, b=0, c=1
+t1 = AND(a, b_bar)
+t2 = AND(t1, c)
+
+# Multiply by noise factors (keeps inputs alive but function unchanged)
+t3 = AND(t2, n_d)
+t4 = AND(t3, n_e)
+t5 = AND(t4, n_f)
+t6 = AND(t5, n_g)
+t7 = AND(t6, n_h)
+t8 = AND(t7, n_i)
+y_comb = AND(t8, n_j)
+
+# Sequential part: DFF on y_comb
+state = DFF(y_comb)
+y = state
+

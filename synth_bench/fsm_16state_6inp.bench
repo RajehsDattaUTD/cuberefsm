@@ -1,0 +1,42 @@
+
+INPUT(ctrl0)
+INPUT(ctrl1)
+INPUT(ctrl2)
+INPUT(ctrl3)
+INPUT(noise0)
+INPUT(noise1)
+OUTPUT(state0)
+OUTPUT(state1)
+OUTPUT(state2)
+OUTPUT(state3)
+s0 = DFF(ns0)
+s1 = DFF(ns1)
+s2 = DFF(ns2)
+s3 = DFF(ns3)
+
+state0 = BUF(s0)
+state1 = BUF(s1)
+state2 = BUF(s2)
+state3 = BUF(s3)
+
+nx0 = XOR(noise0, noise0)   
+nx1 = XOR(noise1, noise1)   
+nx2 = XOR(ctrl2, ctrl2)    
+nx3 = XOR(ctrl3, ctrl3)     
+
+t0  = XOR(ctrl0, nx0)
+t0b = XOR(t0,    nx2)
+ns0 = BUF(t0b)
+
+t1  = XOR(ctrl0, nx1)
+t1b = XOR(t1,    nx3)
+ns1 = BUF(t1b)
+
+t2  = XOR(ctrl1, nx0)
+t2b = XOR(t2,    nx1)
+ns2 = BUF(t2b)
+
+t3  = XOR(ctrl1, nx2)
+t3b = XOR(t3,    nx3)
+ns3 = BUF(t3b)
+

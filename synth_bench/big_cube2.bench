@@ -1,0 +1,61 @@
+INPUT(a)
+INPUT(b)
+INPUT(c)
+INPUT(d)
+INPUT(e)
+INPUT(f)
+INPUT(g)
+INPUT(h)
+INPUT(i)
+INPUT(j)
+
+OUTPUT(y0)
+OUTPUT(y1)
+
+b_bar = NOT(b)
+d_bar = NOT(d)
+e_bar = NOT(e)
+f_bar = NOT(f)
+g_bar = NOT(g)
+h_bar = NOT(h)
+i_bar = NOT(i)
+j_bar = NOT(j)
+
+n_d = OR(d, d_bar)
+n_e = OR(e, e_bar)
+n_f = OR(f, f_bar)
+n_g = OR(g, g_bar)
+n_h = OR(h, h_bar)
+n_i = OR(i, i_bar)
+n_j = OR(j, j_bar)
+
+t3_0 = AND(a, b_bar)
+t4_0 = AND(t3_0, c)
+
+t5_0 = AND(t4_0, n_d)
+t6_0 = AND(t5_0, n_e)
+t7_0 = AND(t6_0, n_f)
+t8_0 = AND(t7_0, n_g)
+t9_0 = AND(t8_0, n_h)
+t10_0 = AND(t9_0, n_i)
+y0_comb = AND(t10_0, n_j)
+
+a_bar = NOT(a)
+
+t3_1 = AND(a_bar, b)
+t4_1 = AND(t3_1, c)
+
+t5_1 = AND(t4_1, n_d)
+t6_1 = AND(t5_1, n_e)
+t7_1 = AND(t6_1, n_f)
+t8_1 = AND(t7_1, n_g)
+t9_1 = AND(t8_1, n_h)
+t10_1 = AND(t9_1, n_i)
+y1_comb = AND(t10_1, n_j)
+
+state0 = DFF(y0_comb)
+state1 = DFF(y1_comb)
+
+y0 = state0
+y1 = state1
+

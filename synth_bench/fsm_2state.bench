@@ -1,0 +1,13 @@
+# 2-state FSM (1 DFF), 2 inputs (a,b), Moore output y = state
+INPUT(a)
+INPUT(b)
+OUTPUT(y)
+# Next-state: d = (~q & a) | (q & ~b)
+nq = NOT(q)
+t0 = AND(nq, a)
+nb = NOT(b)
+t1 = AND(q, nb)
+d  = OR(t0, t1)
+q = dff(d)
+y = BUF(q)
+

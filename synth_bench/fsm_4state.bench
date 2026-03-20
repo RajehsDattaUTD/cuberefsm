@@ -1,0 +1,58 @@
+# pattern_fsm.bench derived from Yosys netlist
+
+INPUT(clk)
+INPUT(rst_n)
+INPUT(start)
+INPUT(x0)
+INPUT(x1)
+
+OUTPUT(state0)
+OUTPUT(state1)
+
+# Map rst_n → _19_
+_19_ = BUF(rst_n)
+
+# Inverters
+_00_ = NOT(_19_)
+_01_ = NOT(_19_)
+
+# State flops (cur_state[0], cur_state[1])
+cur_state0 = DFF(_17_)
+cur_state1 = DFF(_18_)
+
+# Alias for readability (match Verilog nets)
+_02_ = BUF(cur_state0)
+_03_ = BUF(cur_state1)
+
+_20_ = BUF(start)
+_22_ = BUF(x1)
+_21_ = BUF(x0)
+
+# Combinational logic
+
+_04_ = NOT(_02_)
+_05_ = NOT(_20_)
+_06_ = NOT(_22_)
+
+_07_ = NAND(_02_, _20_)
+_08_ = NAND(_03_, _07_)
+
+_09_ = NOR(_02_, _21_)
+_10_ = NOR(_08_, _09_)
+_11_ = NOT(_10_)
+
+_12_ = NOR(_03_, _02_)
+_13_ = NOR(_05_, _06_)
+_14_ = NAND(_12_, _13_)
+
+_17_ = NAND(_11_, _14_)
+
+_15_ = NOR(_03_, _04_)
+_16_ = NAND(_06_, _15_)
+
+_18_ = NAND(_08_, _16_)
+
+# Outputs: state = cur_state
+state0 = BUF(cur_state0)
+state1 = BUF(cur_state1)
+
